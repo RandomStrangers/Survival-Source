@@ -17,7 +17,7 @@ jobs:
         run: |
           msbuild ClassicalSharp.sln /p:Configuration=Release
           rm output/release/ClassicalSharp.exe output/release/SharpWave.dll output/release/Launcher2.exe  output/release/OpenTK.dll
-          msbuild ClassicalSharp/ClassicalSharp.csproj /p:Configuration=Release /t:Rebuild /p:DefineConstants="PEACEFUL" /t:Rebuild /t:Rebuild /p:DefineConstants="PEACEFUL,ALL_BLOCKS" /t:Rebuild /p:DefineConstants="ALL_BLOCKS" 
+          msbuild ClassicalSharp/ClassicalSharp.csproj /p:Configuration=Release /t:Rebuild /p:DefineConstants="PEACEFUL"
           msbuild InteropPatcher/InteropPatcher.csproj /p:Configuration=Release
           msbuild SharpWave/SharpWave.csproj /p:Configuration=Release
           msbuild Launcher2/Launcher2.csproj /p:Configuration=Release 
@@ -43,20 +43,4 @@ jobs:
           SOURCE_FILE: 'output/Release_peaceful'
           DEST_NAME: 'Survival-Peaceful'
           NOTIFY_MESSAGE: 'Successfully compiled Survival Client (CS) Peaceful build.'
-          WEBHOOK_URL: '${{ secrets.WEBHOOK_URL }}'
-
-      - uses: ./.github/actions/notify_success_cs
-        if: ${{ always() && steps.compile.outcome == 'success' }}
-        with:
-          SOURCE_FILE: 'output/Release_AllBlocks'
-          DEST_NAME: 'Survival-AllBlocks'
-          NOTIFY_MESSAGE: 'Successfully compiled Survival Client (CS) All Blocks build.'
-          WEBHOOK_URL: '${{ secrets.WEBHOOK_URL }}'
-
-      - uses: ./.github/actions/notify_success_cs
-        if: ${{ always() && steps.compile.outcome == 'success' }}
-        with:
-          SOURCE_FILE: 'output/Release_Peaceful_AllBlocks'
-          DEST_NAME: 'Survival-AllBlocks'
-          NOTIFY_MESSAGE: 'Successfully compiled Survival Client (CS) All Blocks Peaceful build.'
           WEBHOOK_URL: '${{ secrets.WEBHOOK_URL }}'

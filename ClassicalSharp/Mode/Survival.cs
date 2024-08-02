@@ -187,7 +187,6 @@ namespace ClassicalSharp.Mode {
                 blockhp = (pickeff * 120) / 100;
                 blocksound = SoundType.Stone;
             }
-#if ALL_BLOCKS
             else if (block == Block.RedstoneOre) //Iron
             {
 
@@ -200,7 +199,6 @@ namespace ClassicalSharp.Mode {
                 blockhp = (pickeff * 140) / 100;
                 blocksound = SoundType.Stone;
             }
-#endif
             else if (block == Block.GoldOre || block == Block.Gold) //Gold
             {
 
