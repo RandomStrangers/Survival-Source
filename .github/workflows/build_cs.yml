@@ -16,6 +16,7 @@ jobs:
         id: compile
         run: |
           msbuild ClassicalSharp.sln /p:Configuration=Release
+          cp -R output/release output/release_peaceful
           rm output/release/ClassicalSharp.exe output/release/SharpWave.dll output/release/Launcher2.exe  output/release/OpenTK.dll
           msbuild ClassicalSharp/ClassicalSharp.csproj /p:Configuration=Release /t:Rebuild /p:DefineConstants="PEACEFUL"
           msbuild InteropPatcher/InteropPatcher.csproj /p:Configuration=Release
@@ -31,7 +32,7 @@ jobs:
       - uses: ./.github/actions/notify_success_cs
         if: ${{ always() && steps.compile.outcome == 'success' }}
         with:
-          SOURCE_FILE: 'output/Release'
+          SOURCE_FILE: 'output/release'
           DEST_NAME: 'Survival'
           NOTIFY_MESSAGE: 'Successfully compiled Survival Client (CS) build.'
           WEBHOOK_URL: '${{ secrets.WEBHOOK_URL }}'
@@ -39,7 +40,7 @@ jobs:
       - uses: ./.github/actions/notify_success_cs
         if: ${{ always() && steps.compile.outcome == 'success' }}
         with:
-          SOURCE_FILE: 'output/Release_peaceful'
+          SOURCE_FILE: 'output/release_peaceful'
           DEST_NAME: 'Survival-Peaceful'
           NOTIFY_MESSAGE: 'Successfully compiled Survival Client (CS) Peaceful build.'
           WEBHOOK_URL: '${{ secrets.WEBHOOK_URL }}'
