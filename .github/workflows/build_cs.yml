@@ -16,8 +16,8 @@ jobs:
         id: compile
         run: |
           msbuild ClassicalSharp.sln /p:Configuration=Release
-          cp -R bin/Release output/Release_normal
-          rm bin/Release/ClassicalSharp.exe bin/Release/ClassicalSharp.pdb bin/Release/SharpWave.dll bin/Release/SharpWave.pdb bin/Release/Launcher2.exe bin/Release/Launcher2_.pdb output/Release/OpenTK.dll bin/Release/OpenTK.pdb 
+          cp -R output/Release output/Release_normal output/Release_Peaceful output/Release_16bit output/Release_Peaceful_16bit output/Release_16bit_allblocks_peaceful output/Release_16bit_AllBlocks
+          rm output/Release/ClassicalSharp.exe output/Release/ClassicalSharp.pdb output/Release/SharpWave.dll output/Release/SharpWave.pdb output/Release/Launcher2.exe output/Release/Launcher2_.pdb output/Release/OpenTK.dll output/Release/OpenTK.pdb 
           msbuild ClassicalSharp/ClassicalSharp.csproj /p:Configuration=Release /t:Rebuild /p:DefineConstants="PEACEFUL" /t:Rebuild /p:DefineConstants="PEACEFUL,USE16_BIT" /t:Rebuild /p:DefineConstants="USE16_BIT" /t:Rebuild /p:DefineConstants="PEACEFUL,USE16_BIT,ALL_BLOCKS" /t:Rebuild /p:DefineConstants="USE16_BIT,ALL_BLOCKS" /t:Rebuild /p:DefineConstants="ALL_BLOCKS" 
           msbuild InteropPatcher/InteropPatcher.csproj /p:Configuration=Release
           msbuild SharpWave/SharpWave.csproj /p:Configuration=Release
@@ -33,7 +33,7 @@ jobs:
       - uses: ./.github/actions/notify_success_cs
         if: ${{ always() && steps.compile.outcome == 'success' }}
         with:
-          SOURCE_FILE: 'bin/Release_normal'
+          SOURCE_FILE: 'output/Release_normal'
           DEST_NAME: 'Survival'
           NOTIFY_MESSAGE: 'Successfully compiled Survival Client (CS) build.'
           WEBHOOK_URL: '${{ secrets.WEBHOOK_URL }}'
@@ -41,7 +41,7 @@ jobs:
       - uses: ./.github/actions/notify_success_cs
         if: ${{ always() && steps.compile.outcome == 'success' }}
         with:
-          SOURCE_FILE: 'bin/Release_peaceful'
+          SOURCE_FILE: 'output/Release_peaceful'
           DEST_NAME: 'Survival-Peaceful'
           NOTIFY_MESSAGE: 'Successfully compiled Survival Client (CS) Peaceful build.'
           WEBHOOK_URL: '${{ secrets.WEBHOOK_URL }}'
@@ -49,7 +49,7 @@ jobs:
       - uses: ./.github/actions/notify_success_cs
         if: ${{ always() && steps.compile.outcome == 'success' }}
         with:
-          SOURCE_FILE: 'bin/Release_peaceful_16bit'
+          SOURCE_FILE: 'output/Release_peaceful_16bit'
           DEST_NAME: 'Survival-16bit-Peaceful'
           NOTIFY_MESSAGE: 'Successfully compiled 16 bit Survival Client (CS) Peaceful build.'
           WEBHOOK_URL: '${{ secrets.WEBHOOK_URL }}'
@@ -57,7 +57,7 @@ jobs:
       - uses: ./.github/actions/notify_success_cs
         if: ${{ always() && steps.compile.outcome == 'success' }}
         with:
-          SOURCE_FILE: 'bin/Release_16bit'
+          SOURCE_FILE: 'binoutputRelease_16bit'
           DEST_NAME: 'Survival-16bit'
           NOTIFY_MESSAGE: 'Successfully compiled 16 bit Survival Client (CS) build.'
           WEBHOOK_URL: '${{ secrets.WEBHOOK_URL }}'
@@ -65,7 +65,7 @@ jobs:
       - uses: ./.github/actions/notify_success_cs
         if: ${{ always() && steps.compile.outcome == 'success' }}
         with:
-          SOURCE_FILE: 'bin/Release_16bit_allblocks_peaceful'
+          SOURCE_FILE: 'output/Release_16bit_allblocks_peaceful'
           DEST_NAME: 'Survival-16bit-allblocks-peaceful'
           NOTIFY_MESSAGE: 'Successfully compiled 16 bit Survival Client (CS) All Blocks Peaceful build.'
           WEBHOOK_URL: '${{ secrets.WEBHOOK_URL }}'
@@ -73,7 +73,7 @@ jobs:
       - uses: ./.github/actions/notify_success_cs
         if: ${{ always() && steps.compile.outcome == 'success' }}
         with:
-          SOURCE_FILE: 'bin/Release_16bit_allblocks'
+          SOURCE_FILE: 'output/Release_16bit_allblocks'
           DEST_NAME: 'Survival-16bit-allblocks'
           NOTIFY_MESSAGE: 'Successfully compiled 16 bit Survival Client (CS) All Blocks build.'
           WEBHOOK_URL: '${{ secrets.WEBHOOK_URL }}'
@@ -81,7 +81,7 @@ jobs:
       - uses: ./.github/actions/notify_success_cs
         if: ${{ always() && steps.compile.outcome == 'success' }}
         with:
-          SOURCE_FILE: 'bin/Release_AllBlocks'
+          SOURCE_FILE: 'output/Release_AllBlocks'
           DEST_NAME: 'Survival-AllBlocks'
           NOTIFY_MESSAGE: 'Successfully compiled Survival Client (CS) All Blocks build.'
           WEBHOOK_URL: '${{ secrets.WEBHOOK_URL }}'
