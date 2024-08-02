@@ -19,7 +19,6 @@ jobs:
           rm output/release/ClassicalSharp.exe output/release/SharpWave.dll output/release/Launcher2.exe  output/release/OpenTK.dll
           msbuild ClassicalSharp/ClassicalSharp.csproj /p:Configuration=Release /t:Rebuild /p:DefineConstants="PEACEFUL"
           msbuild InteropPatcher/InteropPatcher.csproj /p:Configuration=Release
-          msbuild SharpWave/SharpWave.csproj /p:Configuration=Release
           msbuild Launcher2/Launcher2.csproj /p:Configuration=Release 
           msbuild OpenTK/OpenTK.csproj /p:Configuration=Release
 
