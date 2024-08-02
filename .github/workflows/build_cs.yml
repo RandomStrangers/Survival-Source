@@ -32,7 +32,7 @@ jobs:
       - uses: ./.github/actions/notify_success_cs
         if: ${{ always() && steps.compile.outcome == 'success' }}
         with:
-          SOURCE_FILE: 'output/Release_normal'
+          SOURCE_FILE: 'output/Release'
           DEST_NAME: 'Survival'
           NOTIFY_MESSAGE: 'Successfully compiled Survival Client (CS) build.'
           WEBHOOK_URL: '${{ secrets.WEBHOOK_URL }}'
