@@ -164,13 +164,10 @@
       <Name>InteropPatcher</Name>
     </ProjectReference>
   </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
-  <!-- This actually rewrites the calli and fixed code.-->
+<Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="AfterBuild">
     <Exec Command="$(OutputPath)InteropPatcher.exe $(OutDir)OpenTK.dll" />
-    <!--Copy back *.dll from bin/Debug|Release to obj/Debug/Release directory-->
     <Copy SourceFiles="@(MainAssembly)" DestinationFolder="$(IntermediateOutputPath)" SkipUnchangedFiles="true" />
-    <!-- Copy back *.pdb from bin/Debug|Release to obj/Debug/Release directory-->
     <Copy SourceFiles="@(_DebugSymbolsOutputPath)" DestinationFiles="@(_DebugSymbolsIntermediatePath)" SkipUnchangedFiles="true" Condition="'$(_DebugSymbolsProduced)'=='true' and '$(SkipCopyingSymbolsToOutputDirectory)' != 'true'" />
   </Target>
 </Project>
