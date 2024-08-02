@@ -16,7 +16,7 @@ jobs:
         id: compile
         run: |
           msbuild ClassicalSharp.sln /p:Configuration=Release
-          rm output/release/ClassicalSharp.exe output/release/ClassicalSharp.pdb output/release/SharpWave.dll output/release/SharpWave.pdb output/release/Launcher2.exe output/release/Launcher2_.pdb output/release/OpenTK.dll output/release/OpenTK.pdb 
+          rm output/release/ClassicalSharp.exe output/release/SharpWave.dll output/release/Launcher2.exe  output/release/OpenTK.dll
           msbuild ClassicalSharp/ClassicalSharp.csproj /p:Configuration=Release /t:Rebuild /p:DefineConstants="PEACEFUL" /t:Rebuild /p:DefineConstants="PEACEFUL,USE16_BIT" /t:Rebuild /p:DefineConstants="USE16_BIT" /t:Rebuild /p:DefineConstants="PEACEFUL,USE16_BIT,ALL_BLOCKS" /t:Rebuild /p:DefineConstants="USE16_BIT,ALL_BLOCKS" /t:Rebuild /p:DefineConstants="ALL_BLOCKS" 
           msbuild InteropPatcher/InteropPatcher.csproj /p:Configuration=Release
           msbuild SharpWave/SharpWave.csproj /p:Configuration=Release
