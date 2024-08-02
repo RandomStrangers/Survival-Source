@@ -1,0 +1,87 @@
+name: Build latest
+on: [push]
+
+concurrency:
+  group: ${{ github.ref }}-latest
+  cancel-in-progress: true
+
+jobs:
+  build-mono:
+    if: github.ref_name == github.event.repository.default_branch
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Compile Survival Client (CS) using mono
+        shell: bash
+        id: compile
+        run: |
+          msbuild ClassicalSharp.sln /p:Configuration=Release
+          cp -R output/Release output/Release_normal
+          rm output/Release/ClassicalSharp.exe output/Release/ClassicalSharp.pdb output/Release/SharpWave.dll output/Release/SharpWave.pdb output/Release/Launcher2.exe output/Release/Launcher2_.pdb output/Release/OpenTK.dll output/Release/OpenTK.pdb 
+          msbuild ClassicalSharp/ClassicalSharp.csproj /p:Configuration=Release /t:Rebuild /p:DefineConstants="PEACEFUL" /t:Rebuild /p:DefineConstants="PEACEFUL,USE16_BIT" /t:Rebuild /p:DefineConstants="USE16_BIT" /t:Rebuild /p:DefineConstants="PEACEFUL,USE16_BIT,ALL_BLOCKS" /t:Rebuild /p:DefineConstants="USE16_BIT,ALL_BLOCKS" /t:Rebuild /p:DefineConstants="ALL_BLOCKS" 
+          msbuild InteropPatcher/InteropPatcher.csproj /p:Configuration=Release
+          msbuild SharpWave/SharpWave.csproj /p:Configuration=Release
+          msbuild Launcher2/Launcher2.csproj /p:Configuration=Release 
+          msbuild OpenTK/OpenTK.csproj /p:Configuration=Release
+
+      - uses: ./.github/actions/notify_failure_cs
+        if: ${{ always() && steps.compile.outcome == 'failure' }}
+        with:
+          NOTIFY_MESSAGE: 'Failed to compile Survival Client (CS) build! <@999409543001931788>'
+          WEBHOOK_URL: '${{ secrets.WEBHOOK_URL }}'
+          
+      - uses: ./.github/actions/notify_success_cs
+        if: ${{ always() && steps.compile.outcome == 'success' }}
+        with:
+          SOURCE_FILE: 'bin/Release_normal'
+          DEST_NAME: 'Survival'
+          NOTIFY_MESSAGE: 'Successfully compiled Survival Client (CS) build.'
+          WEBHOOK_URL: '${{ secrets.WEBHOOK_URL }}'
+          
+      - uses: ./.github/actions/notify_success_cs
+        if: ${{ always() && steps.compile.outcome == 'success' }}
+        with:
+          SOURCE_FILE: 'bin/Release_peaceful'
+          DEST_NAME: 'Survival-Peaceful'
+          NOTIFY_MESSAGE: 'Successfully compiled Survival Client (CS) Peaceful build.'
+          WEBHOOK_URL: '${{ secrets.WEBHOOK_URL }}'
+
+      - uses: ./.github/actions/notify_success_cs
+        if: ${{ always() && steps.compile.outcome == 'success' }}
+        with:
+          SOURCE_FILE: 'bin/Release_peaceful_16bit'
+          DEST_NAME: 'Survival-16bit-Peaceful'
+          NOTIFY_MESSAGE: 'Successfully compiled 16 bit Survival Client (CS) Peaceful build.'
+          WEBHOOK_URL: '${{ secrets.WEBHOOK_URL }}'
+
+      - uses: ./.github/actions/notify_success_cs
+        if: ${{ always() && steps.compile.outcome == 'success' }}
+        with:
+          SOURCE_FILE: 'bin/Release_16bit'
+          DEST_NAME: 'Survival-16bit'
+          NOTIFY_MESSAGE: 'Successfully compiled 16 bit Survival Client (CS) build.'
+          WEBHOOK_URL: '${{ secrets.WEBHOOK_URL }}'
+
+      - uses: ./.github/actions/notify_success_cs
+        if: ${{ always() && steps.compile.outcome == 'success' }}
+        with:
+          SOURCE_FILE: 'bin/Release_16bit_allblocks_peaceful'
+          DEST_NAME: 'Survival-16bit-allblocks-peaceful'
+          NOTIFY_MESSAGE: 'Successfully compiled 16 bit Survival Client (CS) All Blocks Peaceful build.'
+          WEBHOOK_URL: '${{ secrets.WEBHOOK_URL }}'
+
+      - uses: ./.github/actions/notify_success_cs
+        if: ${{ always() && steps.compile.outcome == 'success' }}
+        with:
+          SOURCE_FILE: 'bin/Release_16bit_allblocks'
+          DEST_NAME: 'Survival-16bit-allblocks'
+          NOTIFY_MESSAGE: 'Successfully compiled 16 bit Survival Client (CS) All Blocks build.'
+          WEBHOOK_URL: '${{ secrets.WEBHOOK_URL }}'
+
+      - uses: ./.github/actions/notify_success_cs
+        if: ${{ always() && steps.compile.outcome == 'success' }}
+        with:
+          SOURCE_FILE: 'bin/Release_AllBlocks'
+          DEST_NAME: 'Survival-AllBlocks'
+          NOTIFY_MESSAGE: 'Successfully compiled Survival Client (CS) All Blocks build.'
+          WEBHOOK_URL: '${{ secrets.WEBHOOK_URL }}'
