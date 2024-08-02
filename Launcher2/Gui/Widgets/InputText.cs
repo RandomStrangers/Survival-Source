@@ -11,13 +11,13 @@ namespace Launcher.Gui.Widgets {
 		public int MaxChars = 32;
 		
 		/// <summary> Filter applied to text received from the clipboard. Can be null. </summary>
-		public Func<string, string> ClipboardFilter;
+		public System.Func<string, string> ClipboardFilter;
 		
 		/// <summary> Delegate invoked when the text changes. </summary>
 		public Action<InputWidget> TextChanged;
 		
 		/// <summary> Delegate that only lets certain characters be entered. </summary>
-		public Func<char, bool> TextFilter;
+		public System.Func<char, bool> TextFilter;
 		
 		/// <summary> Specifies the position that characters are inserted/deleted from. </summary>
 		/// <remarks> -1 to insert/delete characters at end of the text. </remarks>

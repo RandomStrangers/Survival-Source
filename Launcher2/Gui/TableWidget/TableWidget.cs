@@ -20,7 +20,7 @@ namespace Launcher.Gui.Widgets {
 			view.Init(window, this);
 		}
 		
-		public Action NeedRedraw;
+		public System.Action NeedRedraw;
 		public Action<string> SelectedChanged;
 		public int SelectedIndex = -1;
 		public int CurrentIndex, Count;
